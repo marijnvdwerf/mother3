@@ -16,7 +16,7 @@ sub_0808DFD4:
 	mov r7, r8
 	adds r7, #0x34
 	adds r0, r7, #0
-	bl sub_0806D64C
+	bl __11Unk0806D64C
 	movs r0, #0xa0
 	add r0, r8
 	mov sl, r0
@@ -75,7 +75,7 @@ sub_0808DFD4:
 	movs r1, #1
 	adds r2, r6, #0
 	mov r3, sb
-	bl sub_0806D744
+	bl sub_0806D744__11Unk0806D64C
 	str r5, [sp, #0x30]
 	str r5, [sp, #0x24]
 	str r5, [sp, #0x18]
@@ -84,14 +84,14 @@ sub_0808DFD4:
 	strh r0, [r1]
 	strh r0, [r1, #2]
 	adds r0, r7, #0
-	bl sub_0806D814
+	bl sub_0806D814__11Unk0806D64C
 	add r1, sp, #0x3c
 	movs r0, #0xf0
 	movs r2, #0x30
 	strh r0, [r1]
 	strh r2, [r1, #2]
 	adds r0, r7, #0
-	bl sub_0806D828
+	bl sub_0806D828__11Unk0806D64C
 	mov r0, sl
 	ldr r1, [sp, #0x48]
 	bl sub_08071150
@@ -216,7 +216,7 @@ sub_0808DFD4:
 	.align 2, 0
 _0808E1C4: .4byte vt_09F85D20
 _0808E1C8: .4byte gUnknown_08CE39F8
-_0808E1CC: .4byte _vt.1D
+_0808E1CC: .4byte _vt.6ResPtr
 _0808E1D0: .4byte vt_09F7E458
 _0808E1D4: .4byte 0x0000028A
 _0808E1D8: .4byte _vt.3Unk

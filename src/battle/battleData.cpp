@@ -1,4 +1,5 @@
 #include "battle.h"
+#include "battle/fader.h"
 #include "battle/guest.h"
 #include "battle/monster.h"
 #include "battle/player.h"
@@ -6,15 +7,15 @@
 extern "C" Msg sub_080706D0(u16, u16);
 extern "C" Msg StrFmt(const Msg&, const Msg&, const Msg&, const Msg&);
 
-extern "C" s32 sub_08072568() {
+extern "C" BattleFader* sub_08072568() {
     return BattleManager::get()->battle_140();
 }
 
-extern "C" s32 sub_08072588() {
+extern "C" BattleFader* sub_08072588() {
     return BattleManager::get()->battle_148();
 }
 
-extern "C" s32 sub_080725A8() {
+extern "C" BattleFader* sub_080725A8() {
     return BattleManager::get()->battle_150();
 }
 
@@ -98,7 +99,7 @@ extern "C" u8* sub_08072858() {
     return BattleManager::get()->battle_200();
 }
 
-extern "C" s32 sub_08072878() {
+extern "C" Combo* sub_08072878() {
     return BattleManager::get()->battle_208();
 }
 
@@ -142,10 +143,10 @@ extern "C" Player* GetPlayer(s32 idx) {
     return getPartyInfo()->getPlayer(idx);
 }
 
-extern "C" Player* sub_08072A18(u16 idx) {
+extern "C" Player* sub_08072A18(u16 id) {
     PartyInfo* info = getPartyInfo();
     for (int i = 0; i < info->numPlayers(); i++) {
-        if (info->getPlayer(i)->id() == idx) {
+        if (info->getPlayer(i)->id() == id) {
             return info->getPlayer(i);
         }
     }
@@ -358,7 +359,7 @@ Msg ROMStrFmt(s32 r0, const Msg& r1, const Msg& r2, const Msg& r3) {
     return StrFmt(sub_08073444(r0), r1, r2, r3);
 }
 
-extern "C" ASM_FUNC("asm/non_matching/battleData/sub_080734A0.inc",
+extern "C" ASM_FUNC("asm/non_matching/battleData/StrFmt.inc",
                     Msg StrFmt(const Msg&, const Msg&, const Msg&, const Msg&));
 
 ASM_FUNC("asm/non_matching/battleData/print__3MsgRC13PrintSettingsb.inc",

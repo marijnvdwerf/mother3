@@ -1,13 +1,13 @@
     .section .data
 
-.global _vt.1D
-_vt.1D:
+.global _vt.6ResPtr
+_vt.6ResPtr:
 	.2byte 0
 	.2byte 0
 	.4byte 0
 	.2byte 0
 	.2byte 0
-	.4byte _._1D
+	.4byte _._6ResPtr
 
 vt_09F44F18::
 	.2byte 0
@@ -80,13 +80,13 @@ _vt.6System::
 	.4byte sub_0805D604__6System
 	.2byte 0
 	.2byte 0
-	.4byte sub_0805D638__Fv
+	.4byte sub_0805D638__6System
 	.2byte 0
 	.2byte 0
 	.4byte getGameProgression__6System
 	.2byte 0
 	.2byte 0
-	.4byte sub_0805D6F8__6System
+	.4byte sub_0805D6F8__6Systemi
 
 _vt.13SystemManager::
 	.2byte 0
@@ -88464,85 +88464,85 @@ vt_09F7DF60::
 	.4byte sub_08065798
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070940
+	.4byte back__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070974
+	.4byte combo_70__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709A8
+	.4byte prev__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709AC
+	.4byte next__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709B0
+	.4byte head__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709B4
+	.4byte combo_98__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070A08
+	.4byte combo_a0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070A5C
+	.4byte combo_a8__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070AB0
+	.4byte combo_b0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070AD8
+	.4byte combo_b8__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B00
+	.4byte combo_c0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B28
+	.4byte setRhythm__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B30
+	.4byte setRhythm__5ComboUiUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B38
+	.4byte setRhythm2__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B40
+	.4byte setRhythm2__5ComboUiUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B48
+	.4byte combo_e8__5ComboUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B50
+	.4byte combo_f0__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B5C
+	.4byte combo_f8__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B68
+	.4byte combo_100__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B74
+	.4byte combo_108__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B80
+	.4byte combo_110__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B8C
+	.4byte combo_118__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B98
+	.4byte getRhythm__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BA0
+	.4byte getRhythm2__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BA8
+	.4byte combo_130__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BB4
+	.4byte beatInRange__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070C38
+	.4byte sub_08070C38__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
 	.4byte sub_08070CA4
@@ -88604,85 +88604,85 @@ vt_09F7E0D0::
 	.4byte sub_080659BC
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070940
+	.4byte back__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070974
+	.4byte combo_70__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709A8
+	.4byte prev__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709AC
+	.4byte next__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709B0
+	.4byte head__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709B4
+	.4byte combo_98__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070A08
+	.4byte combo_a0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070A5C
+	.4byte combo_a8__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070AB0
+	.4byte combo_b0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070AD8
+	.4byte combo_b8__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B00
+	.4byte combo_c0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B28
+	.4byte setRhythm__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B30
+	.4byte setRhythm__5ComboUiUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B38
+	.4byte setRhythm2__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B40
+	.4byte setRhythm2__5ComboUiUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B48
+	.4byte combo_e8__5ComboUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B50
+	.4byte combo_f0__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B5C
+	.4byte combo_f8__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B68
+	.4byte combo_100__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B74
+	.4byte combo_108__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B80
+	.4byte combo_110__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B8C
+	.4byte combo_118__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B98
+	.4byte getRhythm__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BA0
+	.4byte getRhythm2__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BA8
+	.4byte combo_130__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BB4
+	.4byte beatInRange__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070C38
+	.4byte sub_08070C38__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
 	.4byte sub_08070CA4
@@ -90109,16 +90109,16 @@ vt_09F7F018::
 	.2byte 0
 	.4byte sub_080C0D34
 
-vt_09F7F030::
+_vt.9ObjEngine::
 	.2byte 0
 	.2byte 0
 	.4byte 0
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806BF68
+	.4byte _._9ObjEngine
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806BE5C
+	.4byte sub_0806BE5C__9ObjEngine
 	.2byte 0
 	.2byte 0
 	.4byte base_1c__4Base
@@ -90213,16 +90213,16 @@ vt_09F7F118::
 	.2byte 0
 	.4byte sub_080C0F44
 
-vt_09F7F130::
+_vt.10ObjPltPool::
 	.2byte 0
 	.2byte 0
 	.4byte 0
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806C870
+	.4byte _._10ObjPltPool
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806C7F4
+	.4byte getRTTI__10ObjPltPool
 	.2byte 0
 	.2byte 0
 	.4byte base_1c__4Base
@@ -90254,7 +90254,7 @@ vt_09F7F130::
 	.2byte 0
 	.4byte clearNullOutgoing__4Base
 
-vt_09F7F198::
+_vt.17ObjPltPoolManager::
 	.2byte 0
 	.2byte 0
 	.4byte 0
@@ -91357,29 +91357,29 @@ vt_09F7FC18::
 	.2byte 0
 	.4byte sub_080C1424
 
-vt_09F7FC30::
+_vt.11Unk0806D478::
 	.2byte 0
 	.2byte 0
 	.4byte 0
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806D4B0
+	.4byte _._11Unk0806D478
 
-vt_09F7FC40::
+_vt.11Unk0806D548::
 	.2byte 0
 	.2byte 0
 	.4byte 0
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806D580
+	.4byte _._11Unk0806D548
 
-vt_09F7FC50::
+_vt.11Unk0806D64C::
 	.2byte 0
 	.2byte 0
 	.4byte 0
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806D6E0
+	.4byte _._11Unk0806D64C
 	.2byte 0
 	.2byte 0
 	.4byte getRTTI__4Base
@@ -91415,40 +91415,40 @@ vt_09F7FC50::
 	.4byte clearNullOutgoing__4Base
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806D744
+	.4byte sub_0806D744__11Unk0806D64C
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806D79C
+	.4byte sub_0806D79C__11Unk0806D64C
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806D7D0
+	.4byte sub_0806D7D0__11Unk0806D64C
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806D7DC
+	.4byte sub_0806D7DC__11Unk0806D64C
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806D814
+	.4byte sub_0806D814__11Unk0806D64C
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806D828
+	.4byte sub_0806D828__11Unk0806D64C
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806D83C
+	.4byte sub_0806D83C__11Unk0806D64C
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806D850
+	.4byte sub_0806D850__11Unk0806D64C
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806D854
+	.4byte sub_0806D854__11Unk0806D64C
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806D860
+	.4byte sub_0806D860__11Unk0806D64C
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806D868
+	.4byte sub_0806D868__11Unk0806D64C
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806D870
+	.4byte sub_0806D870__11Unk0806D64C
 
 vt_09F7FD18::
 	.2byte 0
@@ -92387,13 +92387,13 @@ vt_09F80668::
 	.2byte 0
 	.4byte sub_080C1484
 
-vt_09F80680::
+_vt.5Sound::
 	.2byte 0
 	.2byte 0
 	.4byte 0
 	.2byte 0
 	.2byte 0
-	.4byte sub_0806FFA8
+	.4byte _._5Sound
 	.2byte 0
 	.2byte 0
 	.4byte getRTTI__4Base
@@ -92432,7 +92432,7 @@ vt_09F80680::
 	.4byte sub_0806FFBC
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070048
+	.4byte play__5Soundb
 	.2byte 0
 	.2byte 0
 	.4byte sub_080700E4
@@ -92444,7 +92444,7 @@ vt_09F80680::
 	.4byte sub_0807014C
 	.2byte 0
 	.2byte 0
-	.4byte sub_080701AC
+	.4byte isPlaying__5Sound
 	.2byte 0
 	.2byte 0
 	.4byte sub_080701F8
@@ -92529,13 +92529,13 @@ vt_09F80770::
 	.2byte 0
 	.4byte sub_0807058C
 
-vt_09F807F0::
+_vt.5Combo::
 	.2byte 0
 	.2byte 0
 	.4byte 0
 	.2byte 0
 	.2byte 0
-	.4byte sub_080708A8
+	.4byte _._5Combo
 	.2byte 0
 	.2byte 0
 	.4byte getRTTI__4Base
@@ -92574,85 +92574,85 @@ vt_09F807F0::
 	.4byte nullsub_105
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070940
+	.4byte back__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070974
+	.4byte combo_70__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709A8
+	.4byte prev__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709AC
+	.4byte next__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709B0
+	.4byte head__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709B4
+	.4byte combo_98__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070A08
+	.4byte combo_a0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070A5C
+	.4byte combo_a8__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070AB0
+	.4byte combo_b0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070AD8
+	.4byte combo_b8__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B00
+	.4byte combo_c0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B28
+	.4byte setRhythm__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B30
+	.4byte setRhythm__5ComboUiUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B38
+	.4byte setRhythm2__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B40
+	.4byte setRhythm2__5ComboUiUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B48
+	.4byte combo_e8__5ComboUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B50
+	.4byte combo_f0__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B5C
+	.4byte combo_f8__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B68
+	.4byte combo_100__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B74
+	.4byte combo_108__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B80
+	.4byte combo_110__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B8C
+	.4byte combo_118__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B98
+	.4byte getRhythm__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BA0
+	.4byte getRhythm2__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BA8
+	.4byte combo_130__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BB4
+	.4byte beatInRange__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070C38
+	.4byte sub_08070C38__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
 	.4byte sub_08070CA4
@@ -92669,13 +92669,13 @@ vt_09F807F0::
 	.2byte 0
 	.4byte sub_08070F74
 
-vt_09F80960::
+_vt.9ComboRoot::
 	.2byte 0
 	.2byte 0
 	.4byte 0
 	.2byte 0
 	.2byte 0
-	.4byte sub_0807105C
+	.4byte _._9ComboRoot
 	.2byte 0
 	.2byte 0
 	.4byte getRTTI__4Base
@@ -92714,85 +92714,85 @@ vt_09F80960::
 	.4byte nullsub_105
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070940
+	.4byte back__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070974
+	.4byte combo_70__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709A8
+	.4byte prev__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709AC
+	.4byte next__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709B0
+	.4byte head__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709B4
+	.4byte combo_98__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070A08
+	.4byte combo_a0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070A5C
+	.4byte combo_a8__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070AB0
+	.4byte combo_b0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070AD8
+	.4byte combo_b8__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B00
+	.4byte combo_c0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B28
+	.4byte setRhythm__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B30
+	.4byte setRhythm__5ComboUiUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B38
+	.4byte setRhythm2__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B40
+	.4byte setRhythm2__5ComboUiUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B48
+	.4byte combo_e8__5ComboUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B50
+	.4byte combo_f0__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B5C
+	.4byte combo_f8__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B68
+	.4byte combo_100__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B74
+	.4byte combo_108__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B80
+	.4byte combo_110__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B8C
+	.4byte combo_118__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B98
+	.4byte getRhythm__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BA0
+	.4byte getRhythm2__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BA8
+	.4byte combo_130__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BB4
+	.4byte beatInRange__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070C38
+	.4byte sub_08070C38__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
 	.4byte sub_08070CA4
@@ -93665,7 +93665,7 @@ vt_09F812F8::
 	.4byte sub_0806FFBC
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070048
+	.4byte play__5Soundb
 	.2byte 0
 	.2byte 0
 	.4byte sub_080700E4
@@ -93677,7 +93677,7 @@ vt_09F812F8::
 	.4byte sub_0807014C
 	.2byte 0
 	.2byte 0
-	.4byte sub_080701AC
+	.4byte isPlaying__5Sound
 	.2byte 0
 	.2byte 0
 	.4byte sub_080701F8
@@ -98187,85 +98187,85 @@ vt_09F84108::
 	.4byte sub_08085D84
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070940
+	.4byte back__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070974
+	.4byte combo_70__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709A8
+	.4byte prev__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709AC
+	.4byte next__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709B0
+	.4byte head__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709B4
+	.4byte combo_98__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070A08
+	.4byte combo_a0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070A5C
+	.4byte combo_a8__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070AB0
+	.4byte combo_b0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070AD8
+	.4byte combo_b8__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B00
+	.4byte combo_c0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B28
+	.4byte setRhythm__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B30
+	.4byte setRhythm__5ComboUiUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B38
+	.4byte setRhythm2__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B40
+	.4byte setRhythm2__5ComboUiUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B48
+	.4byte combo_e8__5ComboUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B50
+	.4byte combo_f0__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B5C
+	.4byte combo_f8__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B68
+	.4byte combo_100__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B74
+	.4byte combo_108__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B80
+	.4byte combo_110__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B8C
+	.4byte combo_118__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B98
+	.4byte getRhythm__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BA0
+	.4byte getRhythm2__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BA8
+	.4byte combo_130__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BB4
+	.4byte beatInRange__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070C38
+	.4byte sub_08070C38__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
 	.4byte sub_08070CA4
@@ -98327,85 +98327,85 @@ vt_09F84278::
 	.4byte sub_08085F10
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070940
+	.4byte back__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070974
+	.4byte combo_70__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709A8
+	.4byte prev__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709AC
+	.4byte next__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709B0
+	.4byte head__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709B4
+	.4byte combo_98__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070A08
+	.4byte combo_a0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070A5C
+	.4byte combo_a8__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070AB0
+	.4byte combo_b0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070AD8
+	.4byte combo_b8__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B00
+	.4byte combo_c0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B28
+	.4byte setRhythm__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B30
+	.4byte setRhythm__5ComboUiUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B38
+	.4byte setRhythm2__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B40
+	.4byte setRhythm2__5ComboUiUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B48
+	.4byte combo_e8__5ComboUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B50
+	.4byte combo_f0__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B5C
+	.4byte combo_f8__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B68
+	.4byte combo_100__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B74
+	.4byte combo_108__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B80
+	.4byte combo_110__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B8C
+	.4byte combo_118__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B98
+	.4byte getRhythm__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BA0
+	.4byte getRhythm2__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BA8
+	.4byte combo_130__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BB4
+	.4byte beatInRange__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070C38
+	.4byte sub_08070C38__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
 	.4byte sub_08070CA4
@@ -98467,85 +98467,85 @@ vt_09F843E8::
 	.4byte sub_08086084
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070940
+	.4byte back__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070974
+	.4byte combo_70__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709A8
+	.4byte prev__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709AC
+	.4byte next__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709B0
+	.4byte head__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709B4
+	.4byte combo_98__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070A08
+	.4byte combo_a0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070A5C
+	.4byte combo_a8__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070AB0
+	.4byte combo_b0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070AD8
+	.4byte combo_b8__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B00
+	.4byte combo_c0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B28
+	.4byte setRhythm__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B30
+	.4byte setRhythm__5ComboUiUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B38
+	.4byte setRhythm2__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B40
+	.4byte setRhythm2__5ComboUiUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B48
+	.4byte combo_e8__5ComboUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B50
+	.4byte combo_f0__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B5C
+	.4byte combo_f8__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B68
+	.4byte combo_100__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B74
+	.4byte combo_108__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B80
+	.4byte combo_110__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B8C
+	.4byte combo_118__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B98
+	.4byte getRhythm__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BA0
+	.4byte getRhythm2__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BA8
+	.4byte combo_130__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BB4
+	.4byte beatInRange__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070C38
+	.4byte sub_08070C38__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
 	.4byte sub_08070CA4
@@ -98607,85 +98607,85 @@ vt_09F84558::
 	.4byte sub_08086238
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070940
+	.4byte back__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070974
+	.4byte combo_70__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709A8
+	.4byte prev__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709AC
+	.4byte next__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709B0
+	.4byte head__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709B4
+	.4byte combo_98__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070A08
+	.4byte combo_a0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070A5C
+	.4byte combo_a8__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070AB0
+	.4byte combo_b0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070AD8
+	.4byte combo_b8__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B00
+	.4byte combo_c0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B28
+	.4byte setRhythm__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B30
+	.4byte setRhythm__5ComboUiUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B38
+	.4byte setRhythm2__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B40
+	.4byte setRhythm2__5ComboUiUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B48
+	.4byte combo_e8__5ComboUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B50
+	.4byte combo_f0__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B5C
+	.4byte combo_f8__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B68
+	.4byte combo_100__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B74
+	.4byte combo_108__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B80
+	.4byte combo_110__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B8C
+	.4byte combo_118__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B98
+	.4byte getRhythm__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BA0
+	.4byte getRhythm2__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BA8
+	.4byte combo_130__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BB4
+	.4byte beatInRange__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070C38
+	.4byte sub_08070C38__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
 	.4byte sub_08070CA4
@@ -98747,85 +98747,85 @@ vt_09F846C8::
 	.4byte sub_08086408
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070940
+	.4byte back__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070974
+	.4byte combo_70__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709A8
+	.4byte prev__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709AC
+	.4byte next__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709B0
+	.4byte head__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_080709B4
+	.4byte combo_98__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070A08
+	.4byte combo_a0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070A5C
+	.4byte combo_a8__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070AB0
+	.4byte combo_b0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070AD8
+	.4byte combo_b8__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B00
+	.4byte combo_c0__5CombobT1
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B28
+	.4byte setRhythm__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B30
+	.4byte setRhythm__5ComboUiUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B38
+	.4byte setRhythm2__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B40
+	.4byte setRhythm2__5ComboUiUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B48
+	.4byte combo_e8__5ComboUi
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B50
+	.4byte combo_f0__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B5C
+	.4byte combo_f8__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B68
+	.4byte combo_100__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B74
+	.4byte combo_108__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B80
+	.4byte combo_110__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B8C
+	.4byte combo_118__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070B98
+	.4byte getRhythm__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BA0
+	.4byte getRhythm2__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BA8
+	.4byte combo_130__5Combo
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070BB4
+	.4byte beatInRange__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070C38
+	.4byte sub_08070C38__5ComboR11ComboRhythm
 	.2byte 0
 	.2byte 0
 	.4byte sub_08070CA4
@@ -99151,7 +99151,7 @@ vt_09F84AE8::
 	.4byte sub_0806FFBC
 	.2byte 0
 	.2byte 0
-	.4byte sub_08070048
+	.4byte play__5Soundb
 	.2byte 0
 	.2byte 0
 	.4byte sub_080700E4
@@ -99163,7 +99163,7 @@ vt_09F84AE8::
 	.4byte sub_0807014C
 	.2byte 0
 	.2byte 0
-	.4byte sub_080701AC
+	.4byte isPlaying__5Sound
 	.2byte 0
 	.2byte 0
 	.4byte sub_080701F8
@@ -99620,21 +99620,21 @@ vt_09F84F00::
 	.2byte 0
 	.4byte sub_08087AD4
 
-vt_09F85018::
+_vt.11Unk08087ED8::
 	.2byte 0
 	.2byte 0
 	.4byte 0
 	.2byte 0
 	.2byte 0
-	.4byte sub_08087F10
+	.4byte _._11Unk08087ED8
 
-vt_09F85028::
+_vt.11Unk08088018::
 	.2byte 0
 	.2byte 0
 	.4byte 0
 	.2byte 0
 	.2byte 0
-	.4byte sub_08088024
+	.4byte _._11Unk08088018
 
 vt_09F85038::
 	.2byte 0

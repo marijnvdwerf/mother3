@@ -56,7 +56,7 @@ sub_08089F94:
 	adds r0, r4, #0
 	movs r1, #1
 	mov r2, sp
-	bl sub_0806D79C
+	bl sub_0806D79C__11Unk0806D64C
 	ldr r0, _0808A01C
 	str r0, [sp, #8]
 	movs r0, #0
@@ -64,7 +64,7 @@ sub_08089F94:
 	b _0808A034
 	.align 2, 0
 _0808A018: .4byte 0x0000FFFF
-_0808A01C: .4byte _vt.1D
+_0808A01C: .4byte _vt.6ResPtr
 _0808A020:
 	cmp r4, #0
 	beq _0808A034

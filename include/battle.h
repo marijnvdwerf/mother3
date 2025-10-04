@@ -8,6 +8,8 @@ class Unit;
 class Player;
 class Monster;
 class Guest;
+class BattleFader;
+class Combo;
 
 class BgClass : public Base {
 public:
@@ -110,6 +112,19 @@ struct MonsterInfo : public Base {
     virtual Monster* monster_info_f0(s32 idx) const;
 };
 
+struct Encounter {
+    u8 _0;
+    u8 _1[3];
+    u8 _4;
+    u8 monster_count;
+    u8 _6[4];
+    u16 _a;
+    s16 _c;
+    u8 filler[0x2e];
+    u8 result;
+};
+extern Encounter gEncounter;
+
 struct XX {
     XX(Unit* u) : u(u) {}
 
@@ -165,9 +180,9 @@ public:
     virtual void battle_128();
     virtual void battle_130();
     virtual u16 battle_138();
-    virtual s32 battle_140();
-    virtual s32 battle_148();
-    virtual s32 battle_150();
+    virtual BattleFader* battle_140();
+    virtual BattleFader* battle_148();
+    virtual BattleFader* battle_150();
     virtual s32 battle_158();
     virtual bool battle_160();
     virtual Struct160* battle_168();
@@ -190,7 +205,7 @@ public:
     virtual u16 battle_1f0();
     virtual u16 battle_1f8();
     virtual u8* battle_200();
-    virtual s32 battle_208();
+    virtual Combo* battle_208();
     virtual BgClass* battle_210();
     virtual PartyInfo* partyInfo();
     virtual GuestInfo* guestInfo();
@@ -209,14 +224,14 @@ public:
 
     s32 _20;
     s32 _24;
-    s32 _28;
-    s32 _2c;
-    s32 _30;
+    BattleFader* _28;
+    BattleFader* _2c;
+    BattleFader* _30;
     s32 _34;
     s32 _38;
     s32 mRoundNo;
     s32 mBattleResult;
-    s32 _44;
+    Combo* _44;
     BgClass* _48;
     PartyInfo* mPartyInfo;
     GuestInfo* mGuestInfo;
@@ -290,4 +305,4 @@ extern "C" bool sub_080726B8();
 s32 sub_08072A88();
 Player* sub_08072AA4(s32);
 
-#endif // BATTLE_H
+#endif  // BATTLE_H

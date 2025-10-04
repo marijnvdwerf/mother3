@@ -7,6 +7,9 @@ bool8 ch_is_lucas(CharStats* ch);
 bool8 ch_is_kumatora(CharStats* ch);
 bool8 sub_0805C58C(u8* data, s32);
 void sub_0805C548(u8*, s32, bool8);
+u32 sub_0805C168(s32 num);
+int sub_0805D234(int, int);
+int Div(int, int);
 
 u32 sub_0805C1A8(CharStats* ch, LevelStats* ls, s32 level);
 
@@ -1034,7 +1037,7 @@ add r0, sp, #0xc\n\
 bl sub_0805D2A4\n\
 add r0, sp, #0x14\n\
 mov sl, r0\n\
-ldr r1, _0805CF84 @ =_vt.1D\n\
+ldr r1, _0805CF84 @ =_vt.6ResPtr\n\
 mov sb, r1\n\
 str r1, [sp, #0x1c]\n\
 movs r0, #0\n\
@@ -1073,7 +1076,7 @@ lsls r0, r0, #2\n\
 adds r2, r5, r0\n\
 adds r0, r4, #0\n\
 add r1, sp, #0xc\n\
-bl sub_0805D2F0\n\
+bl LoadRes\n\
 mov r1, sl\n\
 adds r0, r4, #0\n\
 ldm r0!, {r2, r3, r6}\n\
@@ -1090,7 +1093,7 @@ adds r2, r5, #0\n\
 adds r2, #8\n\
 adds r0, r4, #0\n\
 add r1, sp, #0xc\n\
-bl sub_0805D2F0\n\
+bl LoadRes\n\
 mov r1, r8\n\
 adds r0, r4, #0\n\
 ldm r0!, {r2, r3, r6}\n\
@@ -1107,7 +1110,7 @@ ldr r3, _0805CF8C @ =0x00000179\n\
 adds r2, r5, r3\n\
 adds r0, r4, #0\n\
 add r1, sp, #0xc\n\
-bl sub_0805D2F0\n\
+bl LoadRes\n\
 ldr r0, [sp, #0x58]\n\
 ldm r4!, {r1, r2, r6}\n\
 stm r0!, {r1, r2, r6}\n\
@@ -1146,7 +1149,7 @@ b _0805CFBC\n\
 .align 2, 0\n\
 _0805CF7C: .4byte gUnknown_02005090\n\
 _0805CF80: .4byte gMonsterData\n\
-_0805CF84: .4byte _vt.1D\n\
+_0805CF84: .4byte _vt.6ResPtr\n\
 _0805CF88: .4byte gUnknown_09C90960\n\
 _0805CF8C: .4byte 0x00000179\n\
 _0805CF90:\n\
@@ -1235,7 +1238,7 @@ ldr r1, [r3, #0x18]\n\
 adds r0, r6, #0\n\
 bl sub_0805D154\n\
 _0805D044:\n\
-ldr r0, _0805D068 @ =_vt.1D\n\
+ldr r0, _0805D068 @ =_vt.6ResPtr\n\
 str r0, [sp, #0x34]\n\
 str r0, [sp, #0x28]\n\
 str r0, [sp, #0x1c]\n\
@@ -1252,7 +1255,7 @@ pop {r4, r5, r6, r7}\n\
 pop {r1}\n\
 bx r1\n\
 .align 2, 0\n\
-_0805D068: .4byte _vt.1D\n\
+_0805D068: .4byte _vt.6ResPtr\n\
 ");
 }
 NAKED void sub_0805D06C() {
@@ -1518,7 +1521,7 @@ bx lr\n\
 _0805D230: .4byte gUnknown_02001C58\n\
 ");
 }
-NAKED void sub_0805D234() {
+NAKED int sub_0805D234(int arg0, int arg1) {
     asm_unified("\n\
 push {r4, lr}\n\
 ldr r4, _0805D25C @ =gUnknown_02001C58\n\
@@ -1637,39 +1640,5 @@ _0805D2EA:\n\
 pop {r1}\n\
 bx r1\n\
 .align 2, 0\n\
-");
-}
-NAKED void sub_0805D2F0() {
-    asm_unified("\n\
-push {lr}\n\
-adds r3, r0, #0\n\
-adds r0, r2, #0\n\
-ldr r2, [r1]\n\
-cmp r2, #0\n\
-bne _0805D308\n\
-ldr r0, _0805D304 @ =_vt.1D\n\
-str r0, [r3, #8]\n\
-str r2, [r3]\n\
-b _0805D31C\n\
-.align 2, 0\n\
-_0805D304: .4byte _vt.1D\n\
-_0805D308:\n\
-adds r1, r2, #0\n\
-adds r1, #8\n\
-lsls r0, r0, #3\n\
-adds r0, r0, r1\n\
-ldr r1, [r0]\n\
-adds r1, r2, r1\n\
-ldr r2, [r0, #4]\n\
-ldr r0, _0805D324 @ =_vt.1D\n\
-str r0, [r3, #8]\n\
-str r1, [r3]\n\
-_0805D31C:\n\
-str r2, [r3, #4]\n\
-adds r0, r3, #0\n\
-pop {r1}\n\
-bx r1\n\
-.align 2, 0\n\
-_0805D324: .4byte _vt.1D\n\
 ");
 }

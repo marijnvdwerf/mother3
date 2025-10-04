@@ -1,4 +1,5 @@
 #include "battle/guest.h"
+#include "battle/irc.h"
 #include "gba/gba.h"
 #include "structs.h"
 
@@ -25,12 +26,6 @@ struct struct_02004848 {
     };
 };
 extern struct_02004848 gUnknown_02004848;
-
-struct struct_020050C0 {
-    u8 filler[284];
-    u8 _284;
-} gUnknown_020050C0;
-extern struct_020050C0 gUnknown_020050C0;
 
 struct struct_020047E0 {
     u8 _0;
@@ -105,8 +100,8 @@ extern u8 gUnknown_020047D0;
 extern u8 gUnknown_020051E4;
 extern u16 gUnknown_02004854;
 extern u8 gUnknown_020051E0;
-extern u8 gUnknown_080C17A0;
-extern u8 gIntrHandlers;
+extern const IrqTable gUnknown_080C17A0;
+extern IrqTable gIntrHandlers;
 extern u8 gIntrVector;
 extern const char gUnknown_08CDB8A8[];
 extern u8 gUnknown_03000008;
@@ -402,7 +397,7 @@ void setup_vectors() {
     REG_IME = 0;
     REG_IE &= ~7;
     REG_DISPSTAT &= ~0x38;
-    memcpy(&gIntrHandlers, &gUnknown_080C17A0, 56);
+    memcpy((void*)&gIntrHandlers, (void*)&gUnknown_080C17A0, sizeof(gUnknown_080C17A0));
     DmaCopy32(3, IntrMain, &gIntrVector, 0x800);
     INTR_VECTOR = &gIntrVector;
     REG_IME = 1;
@@ -618,13 +613,72 @@ void clear_gfx() {
     memclear((void*)0x7000000, 0x400);
 }
 
-extern "C" ASM_FUNC("asm/non_matching/main/sub_08000E5C.inc", void sub_08000E5C(void* p));
+extern "C" void sub_08000E5C(Unknown_02016078* arg0) {
+    // Entry8Byte* ptr1 = &arg0->entries_2000[0];
 
-extern "C" ASM_FUNC("asm/non_matching/main/sub_08000F04.inc", void sub_08000F04(void* p, u32 a));
+    OAMEntry* oam_ptr = arg0->oam;
+    u16 i;
 
-ASM_FUNC("asm/non_matching/main/sub_08000FA0.inc", void sub_08000FA0(void* p, u32 a, u32 b));
+    // Initialize OAM entries
+    for (i = 0; i < 128; i++, oam_ptr++) {
+        oam_ptr->x_coord = 240;
+        oam_ptr->y_coord = 160;
+        oam_ptr->obj_shape = 0;
+        oam_ptr->obj_size = 0;
 
-ASM_FUNC("asm/non_matching/main/sub_08000FE4.inc", void sub_08000FE4(void* p, u32 a));
+        oam_ptr->rot_scale = 2;
+    }
+
+    Entry8Byte_Alt* ptr2 = &arg0->entries_2500[0];
+
+    // Clear second array (32 entries)
+    for (i = 0; i < 32; i++, ptr2++) {
+        ptr2->field0 = 0;
+        ptr2->field2 = 0;
+        ptr2->field4 = 0;
+        ptr2->field6 = 0;
+    }
+
+    // Clear additional fields
+    arg0->oam_counter = 0;
+    arg0->_2C4A = 0;
+}
+
+extern "C" OAMEntry* sub_08000F04(Unknown_02016078* graphics, u16 count) {
+    OAMEntry* first_entry = &graphics->oam[graphics->oam_counter];  // Starting OAM entry
+    OAMEntry* current_entry = first_entry;
+
+    // Process count number of OAM entries
+    for (u16 i = 0; i < count; i++, current_entry++, graphics->oam_counter++) {
+        current_entry->h_flip = 0;      // Clear horizontal flip
+        current_entry->v_flip = 0;      // Clear vertical flip
+        current_entry->color_mode = 0;  // Set to 16 colors/16 palettes
+        current_entry->obj_mode = 0;    // Set to normal mode
+        current_entry->mosaic = 0;      // Disable mosaic
+        current_entry->priority = 1;    // Set priority to 1
+        current_entry->rot_scale = 0;   // Disable rotation/scaling
+        current_entry->unused1 = 0;     // Clear unused bits
+        current_entry->unused = 0;      // Clear unused field
+    }
+
+    return first_entry;
+}
+
+static void sub_08000FA0(Unknown_02016078* graphics, u16 count, u16 priority) {
+    // Start from the last allocated OAM entry and work backwards
+    OAMEntry* current_entry = sub_08000F04(graphics, 0) - 1;
+
+    // Update priority for 'count' entries working backwards
+    for (u16 i = 0; i < count; i++, current_entry--) {
+        current_entry->priority = priority;
+    }
+}
+
+static Entry8Byte_Alt* sub_08000FE4(Unknown_02016078* graphics, u16 count) {
+    Entry8Byte_Alt* first_entry = &graphics->entries_2500[graphics->_2C4A];
+    graphics->_2C4A += count;
+    return first_entry;
+}
 
 ASM_FUNC("asm/non_matching/main/sub_0800100C.inc", void sub_0800100C(void* p, u32 a));
 

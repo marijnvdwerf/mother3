@@ -19,7 +19,7 @@ __15AutoComboResultUiRC11ComboRhythm:
 	adds r0, r5, #0
 	movs r2, #0
 	movs r3, #0
-	bl sub_0807084C
+	bl __5ComboP5ComboUiUiUiUi
 	ldr r0, _08065974
 	str r0, [r5, #0x1c]
 	adds r6, r5, #0
@@ -59,7 +59,7 @@ __15AutoComboResultUiRC11ComboRhythm:
 	strh r0, [r4, #2]
 	adds r0, r5, #0
 	adds r1, r4, #0
-	bl sub_08070B28
+	bl setRhythm__5ComboR11ComboRhythm
 	adds r0, r6, #0
 	movs r1, #1
 	bl sub_080714B0
@@ -123,7 +123,7 @@ __15AutoComboResultUiRC11ComboRhythm:
 	.align 2, 0
 _08065974: .4byte vt_09F7E0D0
 _08065978: .4byte 0x0000027B
-_0806597C: .4byte _vt.1D
+_0806597C: .4byte _vt.6ResPtr
 _08065980: .4byte _vt.3Unk
 _08065984: .4byte _vt.12PostAppClock
 _08065988: .4byte gUnknown_080FCAB0

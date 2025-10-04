@@ -13,7 +13,7 @@ sub_08067438:
 	movs r1, #0x89
 	lsls r1, r1, #3
 	adds r0, r7, r1
-	bl sub_0806D64C
+	bl __11Unk0806D64C
 	movs r2, #0x9c
 	lsls r2, r2, #3
 	adds r4, r7, r2
@@ -191,7 +191,7 @@ _080674D6:
 	b _08067634
 	.align 2, 0
 _080675D0: .4byte vt_09F7E758
-_080675D4: .4byte _vt.1D
+_080675D4: .4byte _vt.6ResPtr
 _080675D8: .4byte gUnknown_08CE39F8
 _080675DC: .4byte vt_09F7E458
 _080675E0: .4byte 0x0000081C
@@ -252,7 +252,7 @@ _08067634:
 	movs r1, #1
 	mov r2, sl
 	ldr r3, [sp, #0xc0]
-	bl sub_0806D744
+	bl sub_0806D744__11Unk0806D64C
 	ldr r0, _08067A14
 	str r0, [sp, #0x60]
 	str r0, [sp, #0x54]
@@ -264,7 +264,7 @@ _08067634:
 	strh r1, [r2, #2]
 	adds r0, r4, #0
 	ldr r1, [sp, #0xcc]
-	bl sub_0806D814
+	bl sub_0806D814__11Unk0806D64C
 	movs r1, #0xf0
 	movs r5, #0xa0
 	add r0, sp, #0x70
@@ -273,7 +273,7 @@ _08067634:
 	strh r5, [r3, #2]
 	adds r0, r4, #0
 	ldr r1, [sp, #0xd0]
-	bl sub_0806D828
+	bl sub_0806D828__11Unk0806D64C
 	ldr r0, _08067A18
 	adds r4, r7, r0
 	movs r0, #0xc0
@@ -673,7 +673,7 @@ _08067954:
 	.align 2, 0
 _08067A0C: .4byte 0x0000028F
 _08067A10: .4byte 0x00000286
-_08067A14: .4byte _vt.1D
+_08067A14: .4byte _vt.6ResPtr
 _08067A18: .4byte 0x000004B4
 _08067A1C: .4byte 0x000004BC
 _08067A20: .4byte 0x000004C4

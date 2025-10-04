@@ -19,7 +19,7 @@ __12BattleSpriteP7Monster:
 	adds r5, r6, #0
 	adds r5, #0x9c
 	adds r0, r5, #0
-	bl sub_0806D478
+	bl __11Unk0806D478
 	adds r0, r6, #0
 	adds r0, #0x94
 	str r4, [r0]
@@ -42,7 +42,7 @@ __12BattleSpriteP7Monster:
 	bl sub_080706A0
 	adds r0, r5, #0
 	mov r1, sp
-	bl sub_0806D4D0
+	bl sub_0806D4D0__11Unk0806D478P4Unk2
 	ldr r1, _08081D3C
 	mov r8, r1
 	str r1, [sp, #8]
@@ -110,7 +110,7 @@ __12BattleSpriteP7Monster:
 	.align 2, 0
 _08081D34: .4byte vt_09F83418
 _08081D38: .4byte 0x00000179
-_08081D3C: .4byte _vt.1D
+_08081D3C: .4byte _vt.6ResPtr
 _08081D40: .4byte 0x040000D4
 _08081D44: .4byte 0x80000010
 	.syntax divided

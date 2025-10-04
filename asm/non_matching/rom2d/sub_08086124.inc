@@ -15,7 +15,7 @@ sub_08086124:
 	adds r0, r5, #0
 	movs r2, #0
 	movs r3, #0
-	bl sub_0807084C
+	bl __5ComboP5ComboUiUiUiUi
 	ldr r0, _080861F8
 	str r0, [r5, #0x1c]
 	movs r0, #0x44
@@ -39,7 +39,7 @@ sub_08086124:
 	strh r0, [r1]
 	strh r2, [r1, #2]
 	adds r0, r5, #0
-	bl sub_08070B28
+	bl setRhythm__5ComboR11ComboRhythm
 	movs r1, #0xa4
 	lsls r1, r1, #2
 	add r0, sp, #8
@@ -95,7 +95,7 @@ sub_08086124:
 	.align 2, 0
 _080861F8: .4byte vt_09F84558
 _080861FC: .4byte 0x0000027B
-_08086200: .4byte _vt.1D
+_08086200: .4byte _vt.6ResPtr
 _08086204: .4byte _vt.3Unk
 _08086208: .4byte _vt.12PostAppClock
 _0808620C: .4byte gUnknown_08110DF0

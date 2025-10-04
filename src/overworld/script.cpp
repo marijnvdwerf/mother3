@@ -1,14 +1,47 @@
 #include "overworld/script.h"
+#include "battle.h"
 #include "battle/goods.h"
 #include "battle/guest.h"
+#include "enums.h"
 #include "functions.h"
 
 extern "C" {
+
 extern u16 gUnknown_03005314;
 extern u32 gUnknown_030055F4[];
 extern u32 gUnknown_0200DEBC[];
+extern u8 gUnknown_02004100[0x10];
 extern u8 gUnknown_02005080;
 extern u8 gUnknown_080C1FF0[];
+extern s16 gUnknown_02004850;
+
+extern void sub_080517AC(s32);
+extern void sub_08037A7C();
+extern void sub_08019D04();
+extern void sub_0802781C();
+extern void sub_08003C20(u16);
+extern void sub_080052E4(s32);
+extern void sub_0803C4DC(s32);
+extern void sub_080038A4(s32);
+extern void sub_08026610(u8);
+extern void sub_08013EB8();
+extern void sub_08003BF8(u16);
+extern s16 sub_08003D14(u16);
+extern u16 sub_08003D48(u16);
+extern void sub_08033548(u8);
+extern u8 sub_0801B3A4(u16);
+extern void sub_080274AC(s32, u16);
+extern u16 sub_08002FD4(u16, s32);
+extern s32 sub_08002474(s32, s32, s32);
+extern void sub_080272F4(u16, u16, u16);
+extern s32 sub_08022354(s32);
+extern s32 sub_08039B24(s32);
+extern u16 sub_080031E0();
+extern void sub_08003C88(u16, u16);
+extern s32 sub_08003E20(u16);
+extern void DoReset();
+extern s16 getMusicPlayerIndex(u16);
+extern void play_sound(u16);
 
 // not functionally equivalent
 NONMATCH("asm/non_matching/script/exec_cmd.inc", void exec_cmd(void* script, u16* unk)) {
@@ -302,11 +335,11 @@ u16 cmd_05(s32* sp) {
         return 0;
 
     temp = scriptstack_peek(sp, 0);
-    if ((gSomeBlend._2ca2 & temp) == 0) {
+    if ((gSomeBlend._2CA0._2 & temp) == 0) {
         scriptstack_pop();
         return 1;
     } else {
-        scriptstack_push(gSomeBlend._2ca2 & temp);
+        scriptstack_push(gSomeBlend._2CA0._2 & temp);
         return 0;
     }
 }
@@ -314,21 +347,22 @@ u16 cmd_05(s32* sp) {
 u16 cmd_06(s32* sp) {
     s32 idx;
     Object* sprite;
+    int tmp;
 
     if (gGame.state_1 != 5)
         return 0;
 
     idx = scriptstack_peek(sp, 0);
     sprite = get_obj(idx);
-    if (sprite == 0 || (sprite->_ca << 28 < 0))
+    if (sprite == 0 || (tmp = sprite->_ca_8)) {
         return 0;
-
+    }
     scriptstack_pop();
     return 1;
 }
 
 u16 cmd_07() {
-    if (gGame._8495 / 128 != 0) {
+    if ((u8)gGame._8495 / 128 != 0) {
         scriptstack_push(3);
         return 0;
     }
@@ -367,7 +401,7 @@ u16 cmd_reload_room() {
         gSomeBlend._121bb_10 = 1;
         sub_0800AD6C();
         sub_08001B18(&gGame._9488, &gUnknown_03005314, 0x400);
-        gGame.mode = 6;
+        gGame.mode = MODE_FADE_IN;
         sub_08013D38();
         sub_0802610C(0);
     } else {
@@ -794,108 +828,33 @@ u16 cmd_set_key_item(s32* sp) {
     return 0;
 }
 
-#ifdef NONMATCHING
 u16 cmd_get_item_count(s32* sp) {
-    u16 temp;
-    u16 cnt;
-    u8* item;
     u16 idx;
+    u16 cnt;
+    CharStats* item;
+    u16 temp;
+
     idx = scriptstack_peek(sp, 0);
-    if (gGoodsInfo[idx].type == Key) {
-        cnt = gSave._10[idx];
-    } else {
-        cnt = 0;
-        for (u16 i = 0; i < gGame.party_count; ++i) {
-            item = (u8*)get_char_stats(i);
-            if (*item != 0) {
-                temp = sub_08001D2C(*item);
-                if (temp != 0) {
-                    cnt += sub_0802A3D0(item, idx);
-                }
+
+    if (gGoodsInfo[idx].item_type == Key) {
+        scriptstack_push(gSave.key_items[idx]);
+        return 0;
+    }
+
+    cnt = 0;
+    for (u16 i = 0; i < gGame.party_count; ++i) {
+        item = get_char_stats(i);
+        if (item->charNo != 0) {
+            temp = sub_08001D2C(item->charNo);
+            if (temp != 0) {
+                cnt += sub_0802A3D0(item, idx);
             }
         }
     }
+
     scriptstack_push(cnt);
     return 0;
 }
-#else
-NAKED
-u16 cmd_get_item_count(s32* sp) {
-    asm_unified("\n\
-	push {r4, r5, r6, r7, lr}\n\
-	mov r7, r8\n\
-	push {r7}\n\
-	movs r1, #0\n\
-	bl scriptstack_peek\n\
-	lsls r0, r0, #0x10\n\
-	lsrs r6, r0, #0x10\n\
-	ldr r1, _0801C7C8 @ =gGoodsInfo\n\
-	movs r0, #0x6c\n\
-	muls r0, r6, r0\n\
-	adds r1, #4\n\
-	adds r0, r0, r1\n\
-	ldr r0, [r0]\n\
-	cmp r0, #8\n\
-	bne _0801C7D0\n\
-	ldr r0, _0801C7CC @ =gSave\n\
-	adds r0, #0x10\n\
-	adds r0, r6, r0\n\
-	ldrb r0, [r0]\n\
-	b _0801C818\n\
-	.align 2, 0\n\
-_0801C7C8: .4byte gGoodsInfo\n\
-_0801C7CC: .4byte gSave\n\
-_0801C7D0:\n\
-	movs r7, #0\n\
-	movs r5, #0\n\
-	ldr r0, _0801C828 @ =gGame\n\
-	ldr r1, _0801C82C @ =0x00008299\n\
-	adds r0, r0, r1\n\
-	ldrb r1, [r0]\n\
-	cmp r7, r1\n\
-	bhs _0801C816\n\
-	mov r8, r0\n\
-_0801C7E2:\n\
-	adds r0, r5, #0\n\
-	bl get_char_stats\n\
-	adds r4, r0, #0\n\
-	ldrb r0, [r4]\n\
-	cmp r0, #0\n\
-	beq _0801C808\n\
-	bl sub_08001D2C\n\
-	lsls r0, r0, #0x10\n\
-	cmp r0, #0\n\
-	beq _0801C808\n\
-	adds r0, r4, #0\n\
-	adds r1, r6, #0\n\
-	bl sub_0802A3D0\n\
-	adds r0, r7, r0\n\
-	lsls r0, r0, #0x10\n\
-	lsrs r7, r0, #0x10\n\
-_0801C808:\n\
-	adds r0, r5, #1\n\
-	lsls r0, r0, #0x10\n\
-	lsrs r5, r0, #0x10\n\
-	mov r0, r8\n\
-	ldrb r0, [r0]\n\
-	cmp r5, r0\n\
-	blo _0801C7E2\n\
-_0801C816:\n\
-	adds r0, r7, #0\n\
-_0801C818:\n\
-	bl scriptstack_push\n\
-	movs r0, #0\n\
-	pop {r3}\n\
-	mov r8, r3\n\
-	pop {r4, r5, r6, r7}\n\
-	pop {r1}\n\
-	bx r1\n\
-	.align 2, 0\n\
-_0801C828: .4byte gGame\n\
-_0801C82C: .4byte 0x00008299\n\
-    ");
-}
-#endif
 
 u16 cmd_get_party_size(s32* sp) {
     scriptstack_push(gGame.party_count);
@@ -968,14 +927,14 @@ u16 cmd_has_party_member_2(s32* sp) {
     }
     return 0;
 }
+void sub_080296E4(int);
 
-#ifdef NONMATCHING
 u16 cmd_party_add(s32* sp) {
     s16 status;
     u16 idx;
 
     idx = scriptstack_peek(sp, 0);
-    if (idx * 0x10000 - 0x10000 >> 0x10 < 0xf) {
+    if ((u16)(idx - 1) < 0xf) {
         status = sub_0802B8C4(idx);
         if (status == -1) {
             sub_080296E4(idx);
@@ -986,53 +945,6 @@ u16 cmd_party_add(s32* sp) {
     }
     return 0;
 }
-#else
-NAKED
-u16 cmd_party_add(s32* sp) {
-    asm_unified("\n\
-	push {r4, lr}\n\
-	movs r1, #0\n\
-	bl scriptstack_peek\n\
-	lsls r0, r0, #0x10\n\
-	lsrs r4, r0, #0x10\n\
-	ldr r1, _0801C914 @ =0xFFFF0000\n\
-	adds r0, r0, r1\n\
-	lsrs r0, r0, #0x10\n\
-	cmp r0, #0xe\n\
-	bhi _0801C8F6\n\
-	adds r0, r4, #0\n\
-	bl sub_0802B8C4\n\
-	lsls r0, r0, #0x10\n\
-	asrs r0, r0, #0x10\n\
-	movs r1, #1\n\
-	rsbs r1, r1, #0\n\
-	cmp r0, r1\n\
-	bne _0801C8F6\n\
-	adds r0, r4, #0\n\
-	bl sub_080296E4\n\
-_0801C8F6:\n\
-	ldr r0, _0801C918 @ =gGame\n\
-	ldr r1, _0801C91C @ =0x00008299\n\
-	adds r0, r0, r1\n\
-	ldrb r0, [r0]\n\
-	cmp r0, #1\n\
-	bls _0801C90A\n\
-	ldr r0, _0801C920 @ =0x000003E3\n\
-	movs r1, #1\n\
-	bl set_event_flag\n\
-_0801C90A:\n\
-	movs r0, #0\n\
-	pop {r4}\n\
-	pop {r1}\n\
-	bx r1\n\
-	.align 2, 0\n\
-_0801C914: .4byte 0xFFFF0000\n\
-_0801C918: .4byte gGame\n\
-_0801C91C: .4byte 0x00008299\n\
-_0801C920: .4byte 0x000003E3\n\
-    ");
-}
-#endif
 
 u16 cmd_party_heal(s32* sp) {
     u16 mode;
@@ -1211,13 +1123,13 @@ u16 cmd_28(s32* sp) {
     return 0;
 }
 
-#ifdef NONMATCHING
+// EXACTLY the same as cmd_party_add
 u16 cmd_29(s32* sp) {
     s16 status;
     u16 idx;
 
     idx = scriptstack_peek(sp, 0);
-    if ((u32)(idx * 0x10000 - 0x10000) >> 0x10 < 0xf) {
+    if ((u16)(idx - 1) < 0xf) {
         status = sub_0802B8C4(idx);
         if (status == -1) {
             sub_080296E4(idx);
@@ -1228,53 +1140,6 @@ u16 cmd_29(s32* sp) {
     }
     return 0;
 }
-#else
-NAKED
-u16 cmd_29(s32* sp) {
-    asm_unified("\n\
-	push {r4, lr}\n\
-	movs r1, #0\n\
-	bl scriptstack_peek\n\
-	lsls r0, r0, #0x10\n\
-	lsrs r4, r0, #0x10\n\
-	ldr r1, _0801CB94 @ =0xFFFF0000\n\
-	adds r0, r0, r1\n\
-	lsrs r0, r0, #0x10\n\
-	cmp r0, #0xe\n\
-	bhi _0801CB76\n\
-	adds r0, r4, #0\n\
-	bl sub_0802B8C4\n\
-	lsls r0, r0, #0x10\n\
-	asrs r0, r0, #0x10\n\
-	movs r1, #1\n\
-	rsbs r1, r1, #0\n\
-	cmp r0, r1\n\
-	bne _0801CB76\n\
-	adds r0, r4, #0\n\
-	bl sub_080296E4\n\
-_0801CB76:\n\
-	ldr r0, _0801CB98 @ =gGame\n\
-	ldr r1, _0801CB9C @ =0x00008299\n\
-	adds r0, r0, r1\n\
-	ldrb r0, [r0]\n\
-	cmp r0, #1\n\
-	bls _0801CB8A\n\
-	ldr r0, _0801CBA0 @ =0x000003E3\n\
-	movs r1, #1\n\
-	bl set_event_flag\n\
-_0801CB8A:\n\
-	movs r0, #0\n\
-	pop {r4}\n\
-	pop {r1}\n\
-	bx r1\n\
-	.align 2, 0\n\
-_0801CB94: .4byte 0xFFFF0000\n\
-_0801CB98: .4byte gGame\n\
-_0801CB9C: .4byte 0x00008299\n\
-_0801CBA0: .4byte 0x000003E3\n\
-    ");
-}
-#endif
 
 void sub_08029684(u32, u32, u32, Size*);
 void sub_08029FC8(u32, u32, u32, Size*);
@@ -4169,10 +4034,10 @@ u16 cmd_set_member_sprite(s32* sp) {
     return 0;
 }
 
-u16 cmd_5E(s32 * sp) {
+u16 cmd_5E(s32* sp) {
     s32 a, b;
-    Object * c;
-    Object * d;
+    Object* c;
+    Object* d;
     a = scriptstack_peek(sp, 1);
     b = scriptstack_peek(sp, 0);
     c = get_obj(a);
@@ -4189,8 +4054,8 @@ u16 cmd_5E(s32 * sp) {
     return 0;
 }
 
-u16 cmd_5F(s32 * sp) {
-    Object * a = get_obj(scriptstack_peek(sp, 0));
+u16 cmd_5F(s32* sp) {
+    Object* a = get_obj(scriptstack_peek(sp, 0));
     if (!a)
         return 0;
     if (a->_8b >> 3 < 13)
@@ -4201,30 +4066,30 @@ u16 cmd_5F(s32 * sp) {
     return 0;
 }
 
-u16 cmd_60(s32 * sp) {
+u16 cmd_60(s32* sp) {
     s32 a = scriptstack_peek(sp, 3);
     s32 b = scriptstack_peek(sp, 2);
     s32 c = scriptstack_peek(sp, 1);
     s32 d = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
+    Object* obj = get_obj(a);
     if (obj)
         sub_08036A90(obj->character, (s16)b, (s16)c, (s16)d);
 
     return 0;
 }
 
-u16 cmd_61(s32 * sp) {
-    Object * obj = get_obj(scriptstack_peek(sp, 0));
+u16 cmd_61(s32* sp) {
+    Object* obj = get_obj(scriptstack_peek(sp, 0));
     if (obj)
         scriptstack_push(obj->_bc_0);
 
     return 0;
 }
 
-u16 cmd_62(s32 * sp) {
+u16 cmd_62(s32* sp) {
     u32 a = scriptstack_peek(sp, 1);
     u16 b = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
+    Object* obj = get_obj(a);
 
     if (obj) {
         if (b == 1)
@@ -4236,18 +4101,16 @@ u16 cmd_62(s32 * sp) {
     return 0;
 }
 
-u16 cmd_63(s32 * sp) {
+u16 cmd_63(s32* sp) {
     s32 a = scriptstack_peek(sp, 1);
     u32 b = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
+    Object* obj = get_obj(a);
 
-    if (obj)
-    {
+    if (obj) {
         if (b == -1) {
             obj->_c7_0 = 0;
             obj->_b8[0] = obj->_b8[1] = obj->_b8[2] = 3 - obj->_bd_1;
-        }
-        else {
+        } else {
             obj->_c7_0 = 1;
             obj->_b8[0] = obj->_b8[1] = obj->_b8[2] = b;
         }
@@ -4256,11 +4119,11 @@ u16 cmd_63(s32 * sp) {
     return 0;
 }
 
-u16 cmd_64(s32 * sp) {
+u16 cmd_64(s32* sp) {
     s32 a = scriptstack_peek(sp, 2);
     u16 b = scriptstack_peek(sp, 1);
     u16 c = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
+    Object* obj = get_obj(a);
 
     if (obj) {
         if (b == 1)
@@ -4276,16 +4139,16 @@ u16 cmd_64(s32 * sp) {
     return 0;
 }
 
-u16 cmd_65(s32 * sp) {
+u16 cmd_65(s32* sp) {
     u32 a = scriptstack_peek(sp, 1);
     s32 b = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
+    Object* obj = get_obj(a);
     if (obj) {
         do {
             if (b > -5 && b < 9) {
-                obj->_8c[2] = b;
+                obj->_8e[0] = b;
                 if (b > 4)
-                    obj->_8e[2] = sub_08036960(obj, obj->_8b) - 1;
+                    obj->_90[1] = sub_08036960(obj, obj->_8b) - 1;
             }
         } while (0);
     }
@@ -4293,10 +4156,10 @@ u16 cmd_65(s32 * sp) {
     return 0;
 }
 
-u16 cmd_66(s32 * sp) {
+u16 cmd_66(s32* sp) {
     u32 a = scriptstack_peek(sp, 1);
     u16 b = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
+    Object* obj = get_obj(a);
 
     if (obj) {
         if (b == 1)
@@ -4308,15 +4171,15 @@ u16 cmd_66(s32 * sp) {
     return 0;
 }
 
-u16 cmd_67(s32 * sp) {
+u16 cmd_67(s32* sp) {
     scriptstack_push(gGame._8494_5);
     return 0;
 }
 
-u16 cmd_68(s32 * sp) {
+u16 cmd_68(s32* sp) {
     u32 a = scriptstack_peek(sp, 1);
     u16 b = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
+    Object* obj = get_obj(a);
 
     if (obj) {
         switch (gGame.state_1) {
@@ -4338,8 +4201,8 @@ u16 cmd_68(s32 * sp) {
     return 0;
 }
 
-u16 cmd_69(s32 * sp) {
-    Object * obj = get_obj(-1);
+u16 cmd_69(s32* sp) {
+    Object* obj = get_obj(-1);
 
     if (!obj)
         scriptstack_push(-1);
@@ -4348,8 +4211,8 @@ u16 cmd_69(s32 * sp) {
     return 0;
 }
 
-u16 cmd_6A(s32 *sp) {
-    Object * obj = get_obj(-1);
+u16 cmd_6A(s32* sp) {
+    Object* obj = get_obj(-1);
 
     if (!obj)
         scriptstack_push(-1);
@@ -4358,28 +4221,28 @@ u16 cmd_6A(s32 *sp) {
     return 0;
 }
 
-u16 cmd_6B(s32 * sp) {
+u16 cmd_6B(s32* sp) {
     u32 a = scriptstack_peek(sp, 3);
     u16 b = scriptstack_peek(sp, 2) + 1;
     u16 c = scriptstack_peek(sp, 1);
     u16 d = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
+    Object* obj = get_obj(a);
 
     if (obj) {
         if (a == -2) {
             obj->_87 = 3;
         }
         if (b < 9 && c < 6)
-            sub_08035D40(obj, b, c ,d);
+            sub_08035D40(obj, b, c, d);
     }
 
     return 0;
 }
 
-u16 cmd_6C(s32 * sp) {
+u16 cmd_6C(s32* sp) {
     u32 a = scriptstack_peek(sp, 1);
     u16 b = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
+    Object* obj = get_obj(a);
 
     if (obj) {
         if (b == 1)
@@ -4391,11 +4254,11 @@ u16 cmd_6C(s32 * sp) {
     return 0;
 }
 
-u16 cmd_6D(s32 * sp) {
+u16 cmd_6D(s32* sp) {
     u32 a = scriptstack_peek(sp, 2);
     u16 b = scriptstack_peek(sp, 1);
     s16 c = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
+    Object* obj = get_obj(a);
 
     if (obj && b < 13) {
         if (c == -1)
@@ -4408,7 +4271,7 @@ u16 cmd_6D(s32 * sp) {
     return 0;
 }
 
-u16 cmd_B4(s32 * sp) {
+u16 cmd_B4(s32* sp) {
     struct unk {
         u16 unk0;
         s16 unk2;
@@ -4416,14 +4279,15 @@ u16 cmd_B4(s32 * sp) {
 
     u32 a = scriptstack_peek(sp, 5);
     u16 b = scriptstack_peek(sp, 4);
-    ++b;--b; // fakematch
+    ++b;
+    --b;  // fakematch
     s16 c = scriptstack_peek(sp, 3);
     unkStruct.unk0 = c;
     s16 d = scriptstack_peek(sp, 2);
     unkStruct.unk2 = d;
     u16 e = scriptstack_peek(sp, 1);
     u16 f = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
+    Object* obj = get_obj(a);
 
     if (!obj)
         return 0;
@@ -4440,7 +4304,7 @@ u16 cmd_B4(s32 * sp) {
     return 0;
 }
 
-u16 cmd_load_sprite_table(s32 * sp) {
+u16 cmd_load_sprite_table(s32* sp) {
     u16 a = scriptstack_peek(sp, 0);
     if (a < 5) {
         gGame._2_2 = a;
@@ -4449,13 +4313,13 @@ u16 cmd_load_sprite_table(s32 * sp) {
     return 0;
 }
 
-u16 cmd_B7(s32 * sp) {
+u16 cmd_B7(s32* sp) {
     sub_08035170(1);
     return 0;
 }
 
-u16 cmd_B8(s32 * sp) {
-    Object * obj = get_obj(scriptstack_peek(sp, 3));
+u16 cmd_B8(s32* sp) {
+    Object* obj = get_obj(scriptstack_peek(sp, 3));
 
     if (obj) {
         cmd_6B(sp);
@@ -4466,11 +4330,11 @@ u16 cmd_B8(s32 * sp) {
     return 0;
 }
 
-u16 cmd_BA(s32 * sp) {
+u16 cmd_BA(s32* sp) {
     u32 a = scriptstack_peek(sp, 2);
     u16 b = scriptstack_peek(sp, 1);
     u16 c = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
+    Object* obj = get_obj(a);
 
     if (obj) {
         obj->_a6 = b / 2;
@@ -4484,54 +4348,53 @@ u16 cmd_BA(s32 * sp) {
     return 0;
 }
 
-u16 cmd_BF(s32 * sp) {
+u16 cmd_BF(s32* sp) {
     sub_0802D294(gUnknown_0200DEBC);
     return 0;
 }
 
-u16 cmd_C0(s32 * sp) {
+u16 cmd_C0(s32* sp) {
     struct CmdC0Struct {
         u16 a;
         s16 b;
     } cmdC0Struct;
-    
+
     u32 a = scriptstack_peek(sp, 2);
     cmdC0Struct.a = scriptstack_peek(sp, 1);
     cmdC0Struct.b = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
+    Object* obj = get_obj(a);
 
     if (obj) {
         obj->xpos += cmdC0Struct.a << 4;
         obj->_b4[1] = cmdC0Struct.b << 4;
         obj->_c8_2 = 1;
     }
-    
+
     return 0;
 }
 
-u16 cmd_get_talker_sprite(s32 * sp) {
-    Object * obj = get_obj(scriptstack_peek(sp, 0));
+u16 cmd_get_talker_sprite(s32* sp) {
+    Object* obj = get_obj(scriptstack_peek(sp, 0));
 
     if (!obj)
         scriptstack_push(-1);
-    scriptstack_push(obj->_88); // uh???
-    
+    scriptstack_push(obj->_88);  // uh???
+
     return 0;
 }
 
-u16 cmd_C2(s32 * sp) {
-    struct C2Struct * c2Struct;
+u16 cmd_C2(s32* sp) {
+    struct C2Struct* c2Struct;
     s32 a = scriptstack_peek(sp, 1);
     u32 b = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
+    Object* obj = get_obj(a);
     u32 temp;
 
     if (obj) {
         if (b == -1) {
             c2Struct = sub_08036D3C(obj->_88);
             obj->_c9_1 = c2Struct->_0_0;
-        }
-        else {
+        } else {
             obj->_c9_1 = b;
         }
     }
@@ -4539,11 +4402,11 @@ u16 cmd_C2(s32 * sp) {
     return 0;
 }
 
-u16 cmd_C3(s32 * sp) {
+u16 cmd_C3(s32* sp) {
     u32 a = scriptstack_peek(sp, 1);
     u32 b = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
-    Object * obj2;
+    Object* obj = get_obj(a);
+    Object* obj2;
 
     if (obj) {
         obj2 = get_obj(b);
@@ -4558,33 +4421,33 @@ u16 cmd_C3(s32 * sp) {
     return 0;
 }
 
-u16 cmd_C4(s32 * sp) {
+u16 cmd_C4(s32* sp) {
     u32 a = scriptstack_peek(sp, 1);
     u32 b = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
+    Object* obj = get_obj(a);
 
     if (obj)
         sub_080261D0(obj, b, -1, -1, -1);
     return 0;
 }
 
-u16 cmd_C5(s32 * sp) {
-    Object * obj = get_obj_direct(0);
+u16 cmd_C5(s32* sp) {
+    Object* obj = get_obj_direct(0);
     u16 b = scriptstack_peek(sp, 1);
     u16 c = scriptstack_peek(sp, 0);
     u16 d;
-    Object * obj2;
+    Object* obj2;
     Size sz;
 
     if (b != 0)
         return 0;
     d = sub_08002998(65);
-    (u32)obj++;(u32)obj--; // FAKEMATCH
+    (u32) obj++;
+    (u32) obj--;  // FAKEMATCH
     if (c == 1) {
-        
         gGame._829b = 6;
         gGame._82b6_2 = 0;
-    
+
         switch (d) {
         case 0:
             gGame._82ac = 0x7b;
@@ -4601,23 +4464,22 @@ u16 cmd_C5(s32 * sp) {
         case 4:
             gGame._82ac = 0x236;
         }
-    
+
         sub_08030550(obj, gGame._82ac, 1);
         sub_08033620(obj->character, 4);
         switch (d) {
-            case 1:
-            case 2:
-            case 4:
-                sub_08001B18(gUnknown_030055F4, &gGame._948c[0x16E], 0xa0);
-                memclear(gUnknown_030055F4, 0xa0);
-                break;
+        case 1:
+        case 2:
+        case 4:
+            sub_08001B18(gUnknown_030055F4, &gGame._948c[0x16E], 0xa0);
+            memclear(gUnknown_030055F4, 0xa0);
+            break;
         }
         sub_08036BEC(obj, &sz);
         obj->ypos += 64;
         return 0;
 
-    }
-    else if (c == 0) {
+    } else if (c == 0) {
         gGame._829b = 0;
         gGame._82ac = 0xFFFF;
         sub_08030550(obj, gCharStats[obj->_86].spriteNo, 0);
@@ -4630,7 +4492,7 @@ u16 cmd_C5(s32 * sp) {
             obj2 = get_obj_direct(gGame._82b9[0xb7] + 4);
             sub_08033374(obj2->character, 16);
             sub_08033484(obj2->character);
-            obj2->_8e[2] = 0x3c;
+            obj2->_90[1] = 0x3c;
             break;
         }
         gSomeBlend._121b8_3 = 1;
@@ -4650,22 +4512,22 @@ u16 cmd_C5(s32 * sp) {
     return 0;
 }
 
-u16 cmd_C6(s32 * sp) {
+u16 cmd_C6(s32* sp) {
     u16 a = scriptstack_peek(sp, 0);
     gGame._829b = 3;
-    if (a == 1) 
+    if (a == 1)
         sub_08033FEC(0);
     else
         sub_08033FEC(1);
     return 0;
 }
 
-u16 cmd_CA(s32 * sp) {
+u16 cmd_CA(s32* sp) {
     u32 a = scriptstack_peek(sp, 2);
     u32 b = scriptstack_peek(sp, 1);
     s32 c = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
-    Object * obj2;
+    Object* obj = get_obj(a);
+    Object* obj2;
     if (obj) {
         if (c == -2) {
             obj->_cb_1 = 0;
@@ -4676,14 +4538,14 @@ u16 cmd_CA(s32 * sp) {
             sub_080337F0(obj->character, obj2->character, c);
         }
     }
-    
+
     return 0;
 }
 
-s16 cmd_D2(s32 * sp) {
+s16 cmd_D2(s32* sp) {
     u32 a = scriptstack_peek(sp, 1);
     u32 b = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
+    Object* obj = get_obj(a);
 
     if (obj) {
         if (b == 1)
@@ -4694,10 +4556,10 @@ s16 cmd_D2(s32 * sp) {
     return 0;
 }
 
-u16 cmd_D3(s32 * sp) {
+u16 cmd_D3(s32* sp) {
     u32 a = scriptstack_peek(sp, 1);
     u16 b = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
+    Object* obj = get_obj(a);
 
     if (obj) {
         if (a == -2) {
@@ -4706,17 +4568,17 @@ u16 cmd_D3(s32 * sp) {
         }
         sub_080337A8(obj->character, b);
     }
-    
+
     return 0;
 }
 
-u16 cmd_D5(s32 * sp) {
+u16 cmd_D5(s32* sp) {
     u32 a = scriptstack_peek(sp, 1);
     u16 b = scriptstack_peek(sp, 0);
-    Object * obj = get_obj(a);
-    Object * obj2;
+    Object* obj = get_obj(a);
+    Object* obj2;
     Size sz;
-    Size * unused = &sz; // needed for matching
+    Size* unused = &sz;  // needed for matching
 
     if (obj) {
         obj2 = sub_08035138(gGame.party_count);
@@ -4728,8 +4590,8 @@ u16 cmd_D5(s32 * sp) {
     return 0;
 }
 
-u16 cmd_D6(s32 * sp) {
-    Object * obj = get_obj(scriptstack_peek(sp, 0));
+u16 cmd_D6(s32* sp) {
+    Object* obj = get_obj(scriptstack_peek(sp, 0));
     if (obj)
         sub_08035298(obj);
     return 0;
@@ -4742,24 +4604,125 @@ extern "C" ASM_FUNC("asm/non_matching/script/cmd_DA.inc", void cmd_DA());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_E9.inc", void cmd_E9());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_F3.inc", void cmd_F3());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_F7.inc", void cmd_F7());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_FD.inc", void cmd_FD());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_FE.inc", void cmd_FE());
+
+extern "C" s32 cmd_FD(s32* sp) {
+    Object* obj = get_obj(scriptstack_peek(sp, 0));
+
+    if (obj != NULL)
+        scriptstack_push(obj->_8b + 1);
+
+    return 0;
+}
+
+extern "C" s32 cmd_FE(s32* sp) {
+    s32 idx = scriptstack_peek(sp, 1);
+    s32 val = scriptstack_peek(sp, 0);
+    Object* obj = get_obj(idx);
+
+    if (obj != NULL)
+        obj->_b8[3] = val;
+
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_96.inc", void cmd_96());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_set_fade.inc", void cmd_set_fade());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_fade_in.inc", void cmd_fade_in());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_play_fade.inc", void cmd_play_fade());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_71.inc", void cmd_71());
+
+extern "C" s32 cmd_set_fade(s32* sp) {
+    gGame._595b[0] = scriptstack_peek(sp, 1);
+    gGame._595b[1] = scriptstack_peek(sp, 0);
+    return 0;
+}
+
+extern "C" s32 cmd_fade_in(s32* sp) {
+    if (gGame._595b[0] != 1) {
+        sub_08001B18(&gGame._9488, &gUnknown_03005314, 0x400);
+        u8 lastGameMode = gGame.mode;
+        gSomeBlend.bldcnt = 0;
+        gSomeBlend.bldalpha = 0;
+        gSomeBlend.bldy = 0;
+        gSomeBlend.bldcnt = gGame._679c;
+        gSomeBlend.bldalpha = gGame._679e;
+        gSomeBlend.bldy = gGame._67a0;
+        gGame.mode = MODE_FADE_IN;
+        gGame._5960 = scriptstack_peek(sp, 0);
+        sub_08013D38();
+        gGame.mode = lastGameMode;
+    }
+    return 0;
+}
+
+extern "C" s32 cmd_play_fade(s32* sp) {
+    if (gGame._595b[1] != 1) {
+        sub_08001B18((u32*)&gUnknown_03005314, (u16*)&gGame._9488, 0x400);
+        u8 lastGameMode = gGame.mode;
+        gGame.mode = MODE_LOAD_ROOM;
+        gGame._5960 = scriptstack_peek(sp, 0);
+        sub_08013EB8();
+        gGame.mode = lastGameMode;
+    }
+    return 0;
+}
+
+extern "C" s32 cmd_71(s32* sp) {
+    u16 unkA = scriptstack_peek(sp, 2);
+    u16 unkB = scriptstack_peek(sp, 1);
+    u16 unkC = scriptstack_peek(sp, 0);
+    s32 unkD = unkA == 0 ? 4 : 5;
+
+    sub_080272F4(unkD, unkB, unkC);
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_72.inc", void cmd_72());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_73.inc", void cmd_73());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_set_palettes.inc", void cmd_set_palettes());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_75.inc", void cmd_75());
+
+extern "C" s32 cmd_set_palettes(s32* sp) {
+    u16 unkA = scriptstack_peek(sp, 2);
+    u16 unkB = scriptstack_peek(sp, 1);
+    u16 unkC = scriptstack_peek(sp, 0);
+    u16 unkD = unkA == 0 ? 0xA : 0xB;
+
+    sub_080272F4(unkD, unkB, unkC);
+    return 0;
+}
+
+extern "C" s32 cmd_75(s32* sp) {
+    gGame._83a8 = scriptstack_peek(sp, 2);
+    gGame._83aa = scriptstack_peek(sp, 1);
+    gGame._83ac = scriptstack_peek(sp, 0);
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_76.inc", void cmd_76());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_stop_shake.inc", void cmd_stop_shake());
+
+extern "C" s32 cmd_stop_shake() {
+    gGame._8495 &= ~8;
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_play_anim_above.inc", void cmd_play_anim_above());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_79.inc", void cmd_79());
+
+extern "C" s32 cmd_79(s32* sp) {
+    Object* obj = get_obj(scriptstack_peek(sp, 0));
+
+    if (obj != NULL)
+        sub_08033548(obj->character);
+
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_7A.inc", void cmd_7A());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_7B.inc", void cmd_7B());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_7C.inc", void cmd_7C());
+
+extern "C" s32 cmd_7B() {
+    sub_08019D04();
+    return 0;
+}
+
+extern "C" s32 cmd_7C() {
+    sub_0802781C();
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_7D.inc", void cmd_7D());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_7E.inc", void cmd_7E());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_7F.inc", void cmd_7F());
@@ -4775,12 +4738,46 @@ extern "C" ASM_FUNC("asm/non_matching/script/cmd_C7.inc", void cmd_C7());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_C8.inc", void cmd_C8());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_CE.inc", void cmd_CE());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_CF.inc", void cmd_CF());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_D1.inc", void cmd_D1());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_set_logo_disp.inc", void cmd_set_logo_disp());
+
+extern "C" s32 cmd_D1(s32* sp) {
+    sub_080274AC(0xA, (u16)scriptstack_peek(sp, 0));
+    return 0;
+}
+
+extern "C" s32 cmd_set_logo_disp() {
+    sub_0803C4DC(0);
+    gGame.mode = MODE_LOGO_DISPLAY;
+    sub_080052E4(5);
+    return 1;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_F4.inc", void cmd_F4());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_disp_staffroll.inc", void cmd_disp_staffroll());
+
+extern "C" s32 cmd_disp_staffroll() {
+    sub_0803C4DC(0);
+    gUnknown_02004850 = 0;
+    gGame.mode = MODE_STAFFROLL_DISPLAY;
+    sub_080052E4(6);
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_play_sound_ext.inc", void cmd_play_sound_ext());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_play_sound.inc", void cmd_play_sound());
+
+extern "C" s32 cmd_play_sound(s32* sp) {
+    u16 sound = scriptstack_peek(sp, 1);
+    s16 unk = scriptstack_peek(sp, 0);
+    play_sound(sound);
+
+    if (unk != -1) {
+        s16 playerIndex = getMusicPlayerIndex(sound);
+        u16 uPlayerIndex = (u16)playerIndex;
+
+        if (playerIndex != -1)
+            sub_08003C88(uPlayerIndex, (u16)sub_08003E20(unk));
+    }
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_84.inc", void cmd_84());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_85.inc", void cmd_85());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_86.inc", void cmd_86());
@@ -4790,37 +4787,237 @@ extern "C" ASM_FUNC("asm/non_matching/script/cmd_set_bgm.inc", void cmd_set_bgm(
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_set_bgm_other.inc", void cmd_set_bgm_other());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_8A.inc", void cmd_8A());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_CB.inc", void cmd_CB());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_D0.inc", void cmd_D0());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_set_volume.inc", void cmd_set_volume());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_DB.inc", void cmd_DB());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_DC.inc", void cmd_DC());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_E1.inc", void cmd_E1());
+
+extern "C" s32 cmd_D0(s32* sp) {
+    scriptstack_push(sub_08003D48(scriptstack_peek(sp, 0)));
+    return 0;
+}
+
+extern "C" s32 cmd_set_volume(s32* sp) {
+    s16 unk = scriptstack_peek(sp, 1);
+    s16 volume = scriptstack_peek(sp, 0);
+
+    if (unk == -1)
+        unk = sub_0801B3A4(gGame.cur_room);
+
+    if (volume == -1)
+        volume = 100;
+
+    if (unk < 0x80)
+        gSave._582[unk] = volume;
+
+    return 0;
+}
+
+extern "C" s32 cmd_DB(s32* sp) {
+    s16 unk = scriptstack_peek(sp, 0);
+    if (unk == -1) {
+        sub_08003BF8(0);
+        sub_08003BF8(1);
+    } else {
+        sub_08003BF8(unk);
+    }
+    return 0;
+}
+
+extern "C" s32 cmd_DC(s32* sp) {
+    s16 unk = scriptstack_peek(sp, 0);
+    if (unk == -1) {
+        sub_08003C20(0);
+        sub_08003C20(1);
+    } else {
+        sub_08003C20(unk);
+    }
+    return 0;
+}
+
+extern "C" s32 cmd_E1(s32* sp) {
+    scriptstack_push(sub_08003D14(scriptstack_peek(sp, 0)));
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_play_sfx.inc", void cmd_play_sfx());
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_init_battle.inc", void cmd_init_battle());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_8D.inc", void cmd_8D());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_8E.inc", void cmd_8E());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_8F.inc", void cmd_8F());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_90.inc", void cmd_90());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_91.inc", void cmd_91());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_set_gameover.inc", void cmd_set_gameover());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_93.inc", void cmd_93());
+
+extern "C" s32 cmd_8D() {
+    if (gGame._8490 == 1) {
+        scriptstack_push(1);
+    } else {
+        scriptstack_push(0);
+    }
+    return 0;
+}
+
+extern "C" s32 cmd_8E() {
+    if (gGame._8490 == 3) {
+        scriptstack_push(1);
+    } else {
+        scriptstack_push(0);
+    }
+    return 0;
+}
+
+extern "C" s32 cmd_8F() {
+    if (gGame._8490 == 2) {
+        scriptstack_push(1);
+    } else {
+        scriptstack_push(0);
+    }
+    return 0;
+}
+
+extern "C" s32 cmd_90(s32* sp) {
+    s32 unk = scriptstack_peek(sp, 0);
+
+    if (unk == 0) {
+        gEncounter._4 = unk;
+    } else {
+        gEncounter._4 = 1;
+    }
+
+    return 0;
+}
+
+extern "C" s32 cmd_91() {
+    return 0;
+}
+
+extern "C" s32 cmd_set_gameover() {
+    sub_080038A4(SONG_STAND_UP_STRONG);
+    sub_080052E4(3);
+    return 0;
+}
+
+extern "C" s32 cmd_93(s32* sp) {
+    Object* obj = get_obj(scriptstack_peek(sp, 0));
+
+    if (obj)
+        sub_08026610(obj->character);
+
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_open_shop.inc", void cmd_open_shop());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_open_save.inc", void cmd_open_save());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_open_naming.inc", void cmd_open_naming());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_cmp_input_name.inc", void cmd_cmp_input_name());
+
+extern "C" s32 cmd_open_save() {
+    Object* obj = get_obj(-1);
+
+    if (obj)
+        obj->_bf_2 = 0;
+
+    sub_080028F4(0x5A, obj->_bc_2);
+    sub_0803C4DC(1);
+
+    gUnknown_02004100[0] = 7;
+    gGame.mode = MODE_PAUSE_MENU;
+
+    sub_080052E4(2);
+    return 1;
+}
+
+extern "C" s32 cmd_open_naming(s32* sp) {
+    sub_0803C4DC(1);
+    gUnknown_02004100[0] = 0xC;
+    gUnknown_02004100[1] = scriptstack_peek(sp, 0);
+    gGame.mode = MODE_PAUSE_MENU;
+    sub_080052E4(2);
+    return 1;
+}
+
+extern "C" s32 cmd_cmp_input_name(s32* sp) {
+    u16 unk = scriptstack_peek(sp, 0);
+
+    if (unk == 0) {
+        if ((sub_08002474(sub_08022354(3), sub_08039B24(0x28), 9) << 0x10) != 0) {
+            scriptstack_push(0);
+        } else {
+            scriptstack_push(1);
+        }
+    } else if (unk != 2) {
+        scriptstack_push(0);
+    } else {
+        if ((sub_08002474(sub_08022354(4), sub_08039B24(0x29), 9) << 0x10) == 0) {
+            scriptstack_push(1);
+        } else {
+            scriptstack_push(0);
+        }
+    }
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_open_itemguy.inc", void cmd_open_itemguy());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_open_bank.inc", void cmd_open_bank());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_A6.inc", void cmd_A6());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_restart.inc", void cmd_restart());
+
+extern "C" s32 cmd_open_bank() {
+    sub_08037A7C();
+    return 1;
+}
+
+extern "C" s32 cmd_A6() {
+    sub_080517AC(1);
+    return 0;
+}
+
+extern "C" s32 cmd_restart() {
+    DoReset();
+    return 1;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/cmd_set_movement_property.inc", void cmd_set_movement_property());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_AC.inc", void cmd_AC());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_AD.inc", void cmd_AD());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_AE.inc", void cmd_AE());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_AF.inc", void cmd_AF());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_B0.inc", void cmd_B0());
-extern "C" ASM_FUNC("asm/non_matching/script/cmd_B1.inc", void cmd_B1());
+
+extern "C" s32 cmd_AC(s32* sp) {
+    scriptstack_peek(sp, 0);
+    u8 temp = gGame.filler_1;
+    gGame.filler_1 = temp | 1;
+    return 0;
+}
+
+extern "C" s32 cmd_AD(s32* sp) {
+    gSave._708 = scriptstack_peek(sp, 3);
+    gSave._70a = scriptstack_peek(sp, 2);
+    gSave._70c = scriptstack_peek(sp, 1);
+    gSave._70e = scriptstack_peek(sp, 0);
+    return 0;
+}
+
+extern "C" s32 cmd_AE(s32* sp) {
+    s32 a = scriptstack_peek(sp, 0);
+    scriptstack_push(sub_08002FD4(sub_080031E0(), a));
+    return 0;
+}
+
+extern "C" s32 cmd_AF() {
+    return 0;
+}
+
+extern "C" s32 cmd_B0() {
+    scriptstack_push(gGame._82b9[0xB7] - gGame._82b9[0xBA]);
+    return 0;
+}
+
+extern "C" s32 cmd_B1() {
+    scriptstack_push(gGame._82b9[0xBA]);
+    return 0;
+}
+
 extern "C" ASM_FUNC("asm/non_matching/script/sub_08021878.inc", u8* sub_08021878(void* r0, s32* r1, u16* r2));
-extern "C" ASM_FUNC("asm/non_matching/script/sub_080218B0.inc", void sub_080218B0(u32 r0, u32 r1));
-extern "C" ASM_FUNC("asm/non_matching/script/scriptstack_set.inc", void scriptstack_set(s32* sp, s32 offset, s32 value));
-extern "C" ASM_FUNC("asm/non_matching/script/scriptstack_push.inc", void scriptstack_push(u32 r0));
-extern "C" ASM_FUNC("asm/non_matching/script/scriptstack_peek.inc", s32 scriptstack_peek(s32* sp, u16 idx));
+
+extern "C" void sub_080218B0(u32 r0, u32 r1) {
+    if (r0 == r1) {
+        scriptstack_push(1);
+        return;
+    }
+    scriptstack_push(0);
+}
+
+extern "C" void scriptstack_set(s32* sp, u16 offset, s32 value) {
+    gGame.stack[*(sp - offset)] = value;
+}
+
+extern "C" void scriptstack_push(s32 value) {
+    gGame.stack[gGame.sp] = value;
+    gGame.sp++;
+}
+
+extern "C" s32 scriptstack_peek(s32* sp, u16 idx) {
+    return *(sp - idx);
+}
